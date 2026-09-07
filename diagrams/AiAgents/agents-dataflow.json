@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "PerfeXe AI Agents — The Data, Stage by Stage",
+    "quality_profile": "showcase",
+    "viewBox": [1080, 800],
+    "views": [
+      { "id": "configure", "label": "1 · Configured by PerfeXe", "focus": ["base", "kb0"], "note": "One global definition: the agent's instructions, its templates and the ordered steps it runs, plus the knowledge that ships with it." },
+      { "id": "hire", "label": "2 · Copied on hire", "focus": ["base", "kb0", "hire"], "note": "Hiring replicates the definition into the workspace's own database. The admin's edits from then on never leave that database." },
+      { "id": "run", "label": "3 · Used in a run", "focus": ["chat", "stepui", "s2s", "orch", "run"], "note": "A Standard agent opens a chat; a Configurable agent renders a UI built from its steps. Either way the UI calls the orchestrator." }
+    ]
+  },
+  "stages": [
+    { "label": "Configured by PerfeXe" },
+    { "label": "Copied to the workspace" },
+    { "label": "Opened by the user" },
+    { "label": "Run by the orchestrator" },
+    { "label": "Stored in the workspace" }
+  ],
+  "nodes": [
+    { "id": "base", "type": "database", "label": "Agent Base Config", "sublabel": "templates · steps", "stage": 0, "row": 1, "tag": "CATALOG DB" },
+    { "id": "kb0", "type": "database", "label": "Shipped Knowledge", "sublabel": "text and files", "stage": 0, "row": 3, "tag": "CATALOG DB" },
+
+    { "id": "hire", "type": "database", "label": "Hired Agent", "sublabel": "workspace's copy", "stage": 1, "row": 2, "tag": "WORKSPACE DB" },
+
+    { "id": "chat", "type": "frontend", "label": "Chat UI", "sublabel": "Standard agent", "stage": 2, "row": 0 },
+    { "id": "stepui", "type": "frontend", "label": "Step UI", "sublabel": "Configurable agent", "stage": 2, "row": 2 },
+    { "id": "s2s", "type": "security", "label": "External Surface", "sublabel": "the only door out", "stage": 2, "row": 4, "tag": "S2S" },
+
+    { "id": "orch", "type": "external", "label": "Agent Orchestrator", "sublabel": "runs the model", "stage": 3, "row": 2 },
+
+    { "id": "run", "type": "database", "label": "Run History", "sublabel": "every turn stored", "stage": 4, "row": 0, "tag": "WORKSPACE DB" },
+    { "id": "out", "type": "cloud", "label": "Output Files", "sublabel": "pdf · docx · xlsx", "stage": 4, "row": 4, "tag": "WORKSPACE DB" }
+  ],
+  "flows": [
+    { "id": "copy-config", "from": "base", "to": "hire", "label": "the whole config", "classification": "copied at hire", "variant": "emphasis", "labelAt": [207, 320] },
+    { "id": "copy-knowledge", "from": "kb0", "to": "hire", "label": "knowledge", "classification": "copied at hire", "variant": "dashed", "labelAt": [207, 450] },
+
+    { "id": "open-chat", "from": "hire", "to": "chat", "label": "agent profile", "classification": "workspace read", "fromSide": "top", "via": [[315, 157]], "labelAt": [400, 185] },
+    { "id": "open-steps", "from": "hire", "to": "stepui", "label": "step template", "classification": "workspace read", "variant": "emphasis", "route": "straight", "labelAt": [422, 385] },
+    { "id": "config-out", "from": "hire", "to": "s2s", "label": "config · knowledge · key", "classification": "server-to-server", "variant": "security", "fromSide": "bottom", "via": [[315, 613]], "labelAt": [400, 645] },
+
+    { "id": "ask-chat", "from": "chat", "to": "orch", "label": "user message", "classification": "UI calls it", "toSide": "top", "via": [[745, 157]], "labelAt": [700, 230] },
+    { "id": "ask-step", "from": "stepui", "to": "orch", "label": "step input", "classification": "UI calls it", "variant": "emphasis", "route": "straight", "labelAt": [637, 385] },
+    { "id": "handover", "from": "s2s", "to": "orch", "label": "what it needs", "classification": "via active hire", "variant": "security", "toSide": "bottom", "via": [[745, 613]], "labelAt": [690, 500] },
+
+    { "id": "answer", "from": "orch", "to": "run", "label": "answer posted", "classification": "workspace DB", "variant": "emphasis", "route": "vertical-channel", "channelX": 825, "labelAt": [825, 250] },
+    { "id": "documents", "from": "orch", "to": "out", "label": "documents", "classification": "workspace DB", "route": "vertical-channel", "channelX": 880, "labelAt": [880, 520] }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Catalog database — global, ours",
+      "items": [
+        "One definition per agent: its instructions, its templates and the ordered steps it runs",
+        "Written only from the Super Admin portal; the product API reads it and never writes to it",
+        "Nothing a customer types is ever stored here"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Workspace database — theirs",
+      "items": [
+        "Hiring replicates the agent down; from then on the workspace admin can rewrite instructions or change the template",
+        "Every run, every step and every message is written here, alongside the workspace's own encrypted LLM key",
+        "Fail-closed filtering means a request without a resolved workspace returns nothing at all"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "What crosses to the orchestrator",
+      "items": [
+        "Configuration, knowledge and the vendor key — nothing else, and only for a workspace with an active hire",
+        "The decrypted key is returned by exactly one endpoint, rate-limited and audited on every call",
+        "The orchestrator answers our UI; our UI posts the exchange back so the whole run can be replayed later"
+      ]
+    }
+  ]
+}

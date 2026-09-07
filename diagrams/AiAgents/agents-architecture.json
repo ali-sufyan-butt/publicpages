@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "PerfeXe AI Agents — Who Owns What",
+    "quality_profile": "showcase",
+    "viewBox": [1180, 920],
+    "views": [
+      { "id": "configure", "label": "1 · Configure once, globally", "focus": ["superadmin", "portal", "catalogdb"], "note": "PerfeXe staff build the agent once — its instructions, templates and steps — and it lives in one global catalog database." },
+      { "id": "hire", "label": "2 · Hire into a workspace", "focus": ["wsadmin", "catalogdb", "api", "workspacedb"], "note": "Hiring copies the whole configuration into that workspace's own database, where the admin can rewrite it without affecting anyone else." },
+      { "id": "run", "label": "3 · Run the agent", "focus": ["user", "frontend", "orchestrator", "s2s", "vendors"], "note": "The user works in our UI. The UI calls the orchestrator; the orchestrator reads the workspace's config back from us, then answers the UI." }
+    ]
+  },
+  "components": [
+    { "id": "superadmin", "type": "external", "label": "PerfeXe Super Admin", "sublabel": "builds the agent", "pos": [50, 80], "size": [160, 66] },
+    { "id": "portal", "type": "frontend", "label": "Super Admin Portal", "sublabel": "AgentHub.Web", "pos": [350, 80], "size": [160, 66], "tag": "PERFEXE ONLY" },
+    { "id": "catalogdb", "type": "database", "label": "Catalog Database", "sublabel": "the global definition", "pos": [660, 80], "size": [160, 66], "tag": "GLOBAL" },
+    { "id": "wsadmin", "type": "external", "label": "Workspace Admin", "sublabel": "hires and tailors it", "pos": [50, 265], "size": [160, 66] },
+    { "id": "api", "type": "backend", "label": "Agent Framework API", "sublabel": "Api.Web · /api/AgentHub", "pos": [660, 265], "size": [160, 66], "tag": "X-Tenant-Id" },
+    { "id": "workspacedb", "type": "database", "label": "Workspace Database", "sublabel": "this workspace's copy", "pos": [970, 265], "size": [160, 66], "tag": "PER WORKSPACE" },
+    { "id": "user", "type": "external", "label": "Workspace User", "sublabel": "starts a task", "pos": [50, 450], "size": [160, 66] },
+    { "id": "frontend", "type": "frontend", "label": "PerfeXe Web App", "sublabel": "chat UI or step-by-step UI", "pos": [350, 450], "size": [160, 66] },
+    { "id": "orchestrator", "type": "external", "label": "Agent Orchestrator", "sublabel": "third party — runs the model", "pos": [350, 635], "size": [160, 66] },
+    { "id": "s2s", "type": "security", "label": "External Surface", "sublabel": "the only door out", "pos": [660, 635], "size": [160, 66], "tag": "S2S" },
+    { "id": "vendors", "type": "external", "label": "LLM Vendors", "sublabel": "Claude · Gemini · OpenAI", "pos": [350, 805], "size": [160, 66] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "PerfeXe Agent Framework — our servers", "wraps": ["catalogdb", "api", "workspacedb", "s2s"] },
+    { "kind": "security-group", "label": "agent credential + an active hire", "wraps": ["s2s"] }
+  ],
+  "connections": [
+    { "id": "authors", "from": "superadmin", "to": "portal", "label": "builds the agent" },
+    { "id": "publish", "from": "portal", "to": "catalogdb", "label": "the agent definition" },
+    { "id": "shadow", "from": "catalogdb", "to": "api", "label": "read-only", "variant": "dashed", "labelAt": [740, 205] },
+    { "id": "hires", "from": "wsadmin", "to": "api", "label": "hires · rewrites instructions · edits templates" },
+    { "id": "replicate", "from": "api", "to": "workspacedb", "label": "replicated copy", "variant": "emphasis" },
+    { "id": "opens", "from": "user", "to": "frontend", "label": "opens the agent" },
+    { "id": "product-call", "from": "frontend", "to": "api", "label": "HTTPS + X-Tenant-Id", "variant": "emphasis", "labelAt": [585, 400] },
+    { "id": "ask", "from": "frontend", "to": "orchestrator", "label": "the user's message", "variant": "emphasis", "labelAt": [355, 575] },
+    { "id": "answer", "from": "orchestrator", "to": "frontend", "label": "the agent's answer", "variant": "emphasis", "labelAt": [505, 575] },
+    { "id": "credential", "from": "orchestrator", "to": "s2s", "label": "client_credentials", "variant": "security", "labelAt": [575, 668] },
+    { "id": "pull", "from": "s2s", "to": "api", "label": "reads the configuration", "variant": "security", "labelAt": [740, 483] },
+    { "id": "spend", "from": "orchestrator", "to": "vendors", "label": "the workspace's own key", "variant": "security", "labelAt": [430, 753] }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Configured once, by us",
+      "items": [
+        "PerfeXe staff define an agent in the Super Admin portal: what it is, how it should behave, and the template of steps it follows",
+        "That definition lives in one global catalog database — no customer data ever sits here",
+        "Publishing a new version never changes an agent a workspace is already using"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Owned by the workspace once hired",
+      "items": [
+        "Hiring copies the whole configuration into that workspace's own database",
+        "The workspace admin can rewrite the instructions or change the template — those edits stay in their database only",
+        "Every table is tenant-filtered fail-closed: with no workspace resolved, nothing comes back"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "The orchestrator is a guest, not a partner",
+      "items": [
+        "PerfeXe never calls the orchestrator — our UI does, and posts the exchange back to us",
+        "The orchestrator reads configuration, knowledge and the workspace's LLM key through one guarded door",
+        "An active hire is the permission; ending the hire cuts access on the very next call"
+      ]
+    }
+  ]
+}
