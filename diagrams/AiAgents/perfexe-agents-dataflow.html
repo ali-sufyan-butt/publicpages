@@ -5054,12 +5054,12 @@
         <path data-edge-from="chat" data-edge-to="orch" data-edge-label="user message" data-edge-key="5" data-edge-id="ask-chat" data-composition-points="586,157;745,157;745,356" d="M 586 157 L 745 157 L 745 356" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <path data-edge-from="stepui" data-edge-to="orch" data-edge-label="step input" data-edge-key="6" data-edge-id="ask-step" data-composition-points="586,385;689,385" d="M 586 385 L 689 385" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         <path data-edge-from="s2s" data-edge-to="orch" data-edge-label="what it needs" data-edge-key="7" data-edge-id="handover" data-composition-points="586,613;745,613;745,414" d="M 586 613 L 745 613 L 745 414" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
-        <path data-edge-from="orch" data-edge-to="run" data-edge-label="answer posted" data-edge-key="8" data-edge-id="answer" data-composition-points="801,385;825,385;825,157;904,157" d="M 801 385 L 825 385 L 825 157 L 904 157" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="orch" data-edge-to="run" data-edge-label="every message" data-edge-key="8" data-edge-id="answer" data-composition-points="801,385;825,385;825,157;904,157" d="M 801 385 L 825 385 L 825 157 L 904 157" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         <path data-edge-from="orch" data-edge-to="out" data-edge-label="documents" data-edge-key="9" data-edge-id="documents" data-composition-points="801,385;880,385;880,613;904,613" d="M 801 385 L 880 385 L 880 613 L 904 613" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
 
         <!-- Nodes -->
-        <g id="node-base" data-node-id="base" data-node-label="Agent Base Config" tabindex="0" role="button" aria-label="Focus Agent Base Config, templates · steps, 01 / Configured by PerfeXe" aria-pressed="false" data-node-kind="database" data-node-sublabel="templates · steps" data-node-tag="CATALOG DB" data-node-context="01 / Configured by PerfeXe">
-          <title>Agent Base Config · templates · steps · 01 / Configured by PerfeXe · CATALOG DB</title>
+        <g id="node-base" data-node-id="base" data-node-label="Agent Base Config" tabindex="0" role="button" aria-label="Focus Agent Base Config, steps + its orchestrator, 01 / Configured by PerfeXe" aria-pressed="false" data-node-kind="database" data-node-sublabel="steps + its orchestrator" data-node-tag="CATALOG DB" data-node-context="01 / Configured by PerfeXe">
+          <title>Agent Base Config · steps + its orchestrator · 01 / Configured by PerfeXe · CATALOG DB</title>
           <rect x="44" y="242" width="112" height="58" rx="6" class="c-mask"/>
           <rect x="44" y="242" width="112" height="58" rx="6" class="c-database" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(50 248) scale(0.6875)">
@@ -5067,7 +5067,7 @@
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
           <text data-node-label="" data-detail-anchor="" x="100" y="263" class="t-primary" font-size="10" font-weight="600" text-anchor="middle">Agent Base Config</text>
-          <text data-detail="context" x="100" y="279" class="t-muted" font-size="7" text-anchor="middle">templates · steps</text>
+          <text data-detail="context" x="100" y="279" class="t-muted" font-size="7" text-anchor="middle">steps + its orchestrator</text>
         <text data-detail="fine" x="100" y="289" class="t-database" font-size="7" text-anchor="middle">CATALOG DB</text>
         </g>
 
@@ -5150,15 +5150,15 @@
           <text data-detail="context" x="745" y="393" class="t-muted" font-size="7" text-anchor="middle">runs the model</text>
         </g>
 
-        <g id="node-run" data-node-id="run" data-node-label="Run History" tabindex="0" role="button" aria-label="Focus Run History, every turn stored, 05 / Stored in the workspace" aria-pressed="false" data-node-kind="database" data-node-sublabel="every turn stored" data-node-tag="WORKSPACE DB" data-node-context="05 / Stored in the workspace">
-          <title>Run History · every turn stored · 05 / Stored in the workspace · WORKSPACE DB</title>
+        <g id="node-run" data-node-id="run" data-node-label="Run + Messages" tabindex="0" role="button" aria-label="Focus Run + Messages, every turn stored, 05 / Stored in the workspace" aria-pressed="false" data-node-kind="database" data-node-sublabel="every turn stored" data-node-tag="WORKSPACE DB" data-node-context="05 / Stored in the workspace">
+          <title>Run + Messages · every turn stored · 05 / Stored in the workspace · WORKSPACE DB</title>
           <rect x="904" y="128" width="112" height="58" rx="6" class="c-mask"/>
           <rect x="904" y="128" width="112" height="58" rx="6" class="c-database" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(910 134) scale(0.6875)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="960" y="149" class="t-primary" font-size="10" font-weight="600" text-anchor="middle">Run History</text>
+          <text data-node-label="" data-detail-anchor="" x="960" y="149" class="t-primary" font-size="10" font-weight="600" text-anchor="middle">Run + Messages</text>
           <text data-detail="context" x="960" y="165" class="t-muted" font-size="7" text-anchor="middle">every turn stored</text>
         <text data-detail="fine" x="960" y="175" class="t-database" font-size="7" text-anchor="middle">WORKSPACE DB</text>
         </g>
@@ -5216,10 +5216,10 @@
           <text x="690" y="500" class="t-security" font-size="8" text-anchor="middle">what it needs</text>
         <text data-detail="fine" x="690" y="511" class="t-dim" font-size="7" text-anchor="middle">via active hire</text>
         </g>
-        <g data-detail="context" data-edge-from="orch" data-edge-to="run" data-edge-label="answer posted" data-edge-key="8" data-edge-id="answer">
-          <rect x="787.15" y="239" width="75.7" height="27" rx="4" class="c-mask"/>
-          <text x="825" y="250" class="t-backend" font-size="8" text-anchor="middle">answer posted</text>
-        <text data-detail="fine" x="825" y="261" class="t-dim" font-size="7" text-anchor="middle">workspace DB</text>
+        <g data-detail="context" data-edge-from="orch" data-edge-to="run" data-edge-label="every message" data-edge-key="8" data-edge-id="answer">
+          <rect x="782.25" y="239" width="85.5" height="27" rx="4" class="c-mask"/>
+          <text x="825" y="250" class="t-backend" font-size="8" text-anchor="middle">every message</text>
+        <text data-detail="fine" x="825" y="261" class="t-dim" font-size="7" text-anchor="middle">both directions</text>
         </g>
         <g data-detail="context" data-edge-from="orch" data-edge-to="out" data-edge-label="documents" data-edge-key="9" data-edge-id="documents">
           <rect x="844.6" y="509" width="70.8" height="27" rx="4" class="c-mask"/>
@@ -5444,7 +5444,8 @@
         </div>
         <ul>
           <li>&bull; One definition per agent: its instructions, its templates and the ordered steps it runs</li>
-          <li>&bull; Written only from the Super Admin portal; the product API reads it and never writes to it</li>
+          <li>&bull; Written only from the Super Admin portal, which also registers the agent&#39;s Agent Orchestrator and mints the credential it authenticates with</li>
+          <li>&bull; The product API reads it and never writes to it</li>
           <li>&bull; Nothing a customer types is ever stored here</li>
         </ul>
       </div>
@@ -5469,7 +5470,7 @@
         <ul>
           <li>&bull; Configuration, knowledge and the vendor key — nothing else, and only for a workspace with an active hire</li>
           <li>&bull; The decrypted key is returned by exactly one endpoint, rate-limited and audited on every call</li>
-          <li>&bull; The orchestrator answers our UI; our UI posts the exchange back so the whole run can be replayed later</li>
+          <li>&bull; The orchestrator answers our UI; our UI posts every message, both directions, back into the workspace database so the whole run can be replayed later</li>
         </ul>
       </div>
     </div>
